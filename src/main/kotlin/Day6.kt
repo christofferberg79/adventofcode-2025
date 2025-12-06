@@ -37,4 +37,16 @@ class Day6(input: Input) {
         }
         return total
     }
+
+    fun part2Alt() = input.first().indices.map(::columnToString)
+        .split(String::isEmpty) // separator column
+        .sumOf { problem ->
+            val operator = problem.first().last().toString()
+            val numbers = problem.map { it.replace(operator, "").toLong() }
+            numbers.calc(operator)
+        }
+
+    private fun columnToString(col: Int) = input.indices.map { row -> input[row][col] }
+        .joinToString("")
+        .replace(" ", "")
 }
