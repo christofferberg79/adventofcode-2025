@@ -1,5 +1,7 @@
 package cberg.aoc2025
 
+import kotlin.ranges.reversed
+
 class Day6(private val input: List<String>) {
     constructor(input: Input) : this(input.lines())
 
@@ -36,4 +38,16 @@ class Day6(private val input: List<String>) {
         }
         return total
     }
+
+    fun part2Alt() = input.first().indices.map(::columnToString)
+        .split(String::isEmpty) // separator column
+        .sumOf { problem ->
+            val operator = problem.first().last().toString()
+            val numbers = problem.map { it.replace(operator, "").toLong() }
+            numbers.calc(operator)
+        }
+
+    private fun columnToString(col: Int) = input.indices.map { row -> input[row][col] }
+        .joinToString("")
+        .replace(" ", "")
 }
