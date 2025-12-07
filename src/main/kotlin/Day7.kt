@@ -37,4 +37,23 @@ class Day7(input: Input) {
             else -> 1
         }
     }
+
+    fun part2Alt(): Long {
+        var totalTimelines = 0L
+        val beams = mutableMapOf(grid.positionOf('S') to 1L)
+        while (beams.isNotEmpty()) {
+            val (beam, timelines) = beams.entries.first()
+            beams.remove(beam)
+            when (grid.getOrNull(beam)) {
+                'S', '.' -> beams.merge(beam + S, timelines, Long::plus)
+                '^' -> {
+                    beams.merge(beam + SW, timelines, Long::plus)
+                    beams.merge(beam + SE, timelines, Long::plus)
+                }
+
+                else -> totalTimelines += timelines
+            }
+        }
+        return totalTimelines
+    }
 }
